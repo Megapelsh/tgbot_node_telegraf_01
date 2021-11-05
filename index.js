@@ -1,4 +1,4 @@
-const { Telegraf } = require('telegraf');
+const { Telegraf, Markup } = require('telegraf');
 require('dotenv').config();
 
 const constants = require('./const');
@@ -6,28 +6,22 @@ const commands = constants.commandsList;
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-// bot.settings(ctx => {
-//     ctx.setMyCommands([
-//         {
-//             command: '/start',
-//             description: 'Start bot',
-//         },
-//         {
-//             command: '/help',
-//             description: 'Bot commands list',
-//         },
-//         {
-//             command: '/settings',
-//             description: 'Just empty command',
-//         },
-//     ])
-// })
 
+bot.telegram.setMyCommands(commands);
 
 bot.start(async (ctx) => {
     ctx.reply(`Hey, ${ctx.message.from.first_name ? ctx.message.from.first_name : 'stranger'}!`);
-    ctx.setMyCommands(commands);
+    // ctx.setMyCommands(commands);
+    // bot.telegram.setMyCommands(commands);
 });
+
+bot.settings(async (ctx) => ctx.reply('hohoho settings'));
+
+bot.on("contact", ctx => {
+    const phoneNum = ctx.message.contact.phone_number;
+    ctx.reply(`Номер ${phoneNum} зарегисрирован!`);
+    console.log(phoneNum);
+})
 
 bot.help((ctx) => {
     let printedCommandList = '';
@@ -37,6 +31,17 @@ bot.help((ctx) => {
     ctx.reply(printedCommandList);
 });
 
+bot.command("reg", (ctx) => {
+    ctx.reply("Отправить номер телефона для регистрации", Markup.keyboard([
+        [
+            {
+                text: "Отправить номер телефона",
+                request_contact: true
+            }
+        ]
+    ]).oneTime().resize());
+});
+  
 bot.on('sticker', (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 bot.launch()
