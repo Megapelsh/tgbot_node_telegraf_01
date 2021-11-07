@@ -6,13 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "db": "node db.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^10.0.0",
+    "mysql": "^2.18.1",
+    "mysql2": "*",
     "sequelize": "^6.9.0",
     "telegraf": "^4.4.2"
   },
