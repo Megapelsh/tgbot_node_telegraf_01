@@ -9,21 +9,26 @@ const sequelize = new Sequelize(
         host: 'localhost',
         port: 3306,
         dialect: 'mysql',
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 10000
+        },
     }
-)
+);
 
 
-sequelize
-    .authenticate()
+sequelize.authenticate()
     .then(() => console.log('Connected.'))
     .catch((err) => console.error('Connection error: ', err))
 
 
+//
+// sequelize.close()
+//     .then(() => console.log('Closed.'))
+//     .catch((err) =>
+//         console.error('Close connection error: ', err)
+//     )
 
-sequelize
-    .close()
-    .then(() => console.log('Closed.'))
-    .catch((err) =>
-        console.error('Close connection error: ', err)
-    )
 
