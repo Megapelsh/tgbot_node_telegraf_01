@@ -1,4 +1,5 @@
-const { Telegraf, Markup } = require('telegraf');
+const { Telegraf, Markup, Composer, Scenes, session } = require('telegraf');
+const fetch = require("node-fetch");
 require('dotenv').config();
 
 const constants = require('./const');
@@ -15,7 +16,32 @@ bot.start(async (ctx) => {
     // bot.telegram.setMyCommands(commands);
 });
 
-bot.settings(async (ctx) => ctx.reply('hohoho settings'));
+bot.settings(async (ctx) => {
+    ctx.reply('hohohoO settings');
+
+    let url = 'https://multicode.eu/mapi.php?f=CUser_CheckAuthorization&out=json&dt[login]=pelsh1&dt[password]=322223'
+
+    // Пример отправки POST запроса:
+    async function getData(url = '') {
+        // Default options are marked with *
+        await fetch(url)
+            .then(function (resp) {
+                return resp.json();
+            })
+            .catch(function () {
+                console.log('fetch error')
+            })
+    }
+
+    getData(url)
+        .then((data) => {
+            console.log(data); // JSON data parsed by `response.json()` call
+        });
+
+
+})
+
+
 
 bot.on("contact", ctx => {
     const phoneNum = ctx.message.contact.phone_number;
