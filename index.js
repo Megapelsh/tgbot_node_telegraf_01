@@ -19,25 +19,22 @@ bot.start(async (ctx) => {
 bot.settings(async (ctx) => {
     ctx.reply('hohohoO settings');
 
-    let url = 'https://multicode.eu/mapi.php?f=CUser_CheckAuthorization&out=json&dt[login]=pelsh1&dt[password]=322223'
+    let url = 'https://multicode.eu/mapi.php?f=CUser_CheckAuthorization&out=json&dt[login]=pelsh1&dt[password]=322223';
+    let username = process.env.MULTICODE_LOGIN;
+    let password = process.env.MULTICODE_PASSWORD;
 
-    // Пример отправки POST запроса:
-    async function getData(url = '') {
-        // Default options are marked with *
-        await fetch(url)
-            .then(function (resp) {
-                return resp.json();
-            })
-            .catch(function () {
-                console.log('fetch error')
-            })
-    }
+    await fetch(url, {
+        method:'GET',
+        headers: {
+            'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+        }})
+        .then(response => response.json())
+        .then(json => console.log(json))
+        .catch(await function () {
+            console.log('fetch error')
+        })
 
-    getData(url)
-        .then((data) => {
-            console.log(data); // JSON data parsed by `response.json()` call
-        });
-
+    await console.log(ctx);
 
 })
 
