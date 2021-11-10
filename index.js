@@ -12,8 +12,6 @@ bot.telegram.setMyCommands(commands);
 
 bot.start(async (ctx) => {
     ctx.reply(`Hey, ${ctx.message.from.first_name ? ctx.message.from.first_name : 'stranger'}!`);
-    // ctx.setMyCommands(commands);
-    // bot.telegram.setMyCommands(commands);
 });
 
 bot.settings(async (ctx) => {
@@ -34,7 +32,32 @@ bot.settings(async (ctx) => {
             console.log('fetch error')
         })
 
-    await console.log(ctx);
+        // картинку кода получаем по ссылке:
+        // http://multicode.eu/qrCode/?f=p&data=https://dsqr.eu/?q=1_1633959341_pRfyB71D63
+        // f=p   png
+        // f=s   svg
+    await console.log(ctx.message);
+
+})
+
+
+bot.hears('pic', async (ctx) => {
+    ctx.reply('Hey there')
+
+    // попытка скачать и отправить в чат бота изображение
+    let url='https://multicode.eu/qrCode/?f=p&data=https://dsqr.eu/?q=1_1633959341_pRfyB71D63';
+
+    await fetch(url)
+        .then(response => {
+            ctx.reply(response)
+            console.log('pic sent')
+        })
+        .catch(await function () {
+            console.log('fetch error')
+        })
+
+    await console.log(ctx.message);
+    // конец попытки
 
 })
 
