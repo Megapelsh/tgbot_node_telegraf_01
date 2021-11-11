@@ -2,6 +2,9 @@ const { Telegraf, Markup, Composer, Scenes, session } = require('telegraf');
 const fetch = require("node-fetch");
 require('dotenv').config();
 
+const DATABASE = require('./db/db');
+const users = require('./db/users.model');
+
 const constants = require('./const');
 const commands = constants.commandsList;
 
@@ -36,13 +39,12 @@ bot.settings(async (ctx) => {
         // http://multicode.eu/qrCode/?f=p&data=https://dsqr.eu/?q=1_1633959341_pRfyB71D63
         // f=p   png
         // f=s   svg
-    await console.log(ctx.message);
 
 })
 
 
-bot.hears('pic', async (ctx) => {
-    ctx.reply('Hey there')
+bot.command('qrcode', async (ctx) => {
+    ctx.reply('Your code:')
 
     // скачивание и отправка в чат бота изображение кода
     let url='https://multicode.eu/qrCode/?f=p&data=https://dsqr.eu/?q=1_1633959341_pRfyB71D63';
@@ -88,7 +90,36 @@ bot.command("reg", (ctx) => {
         ]
     ]).oneTime().resize());
 });
-  
+
+
+bot.hears('auth', async (ctx) => {
+    await DATABASE.sync();
+    await users.create({
+        username: ctx.from.username,
+        first_name: ctx.from.first_name,
+        last_name: ctx.from.last_name,
+        telegram_id: ctx.from.id,
+    })
+        .then(ctx.reply('User added to DB'))
+        .catch((err) => {
+            console.log(err)
+            ctx.reply('User NOT added to DB!!!')
+        })
+})
+
+
+bot.hears('check', async (ctx) => {
+    await DATABASE.sync();
+    await users.findOne({
+        where: {
+            telegram_id: ctx.from.id
+        }
+    }).then(async (users) => {
+        console.log(users);
+    });
+});
+
+
 bot.on('sticker', (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 bot.launch()

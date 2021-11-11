@@ -12,6 +12,10 @@ const commands = [
         description: 'Just empty command',
     },
     {
+        command: '/qrcode',
+        description: 'Shows your QR-code',
+    },
+    {
         command: '/reg',
         description: 'Registration',
     },

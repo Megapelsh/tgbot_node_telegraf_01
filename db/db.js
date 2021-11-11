@@ -1,14 +1,14 @@
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
-const sequelize = new Sequelize(
-    process.env.MYSQL_DATABASE,
-    process.env.MYSQL_USER,
-    process.env.MYSQL_PASSWORD,
+const DATABASE = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
     {
-        host: 'localhost',
-        port: 3306,
-        dialect: 'mysql',
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+        dialect: process.env.DB_DIALECT,
         pool: {
             max: 5,
             min: 0,
@@ -19,7 +19,7 @@ const sequelize = new Sequelize(
 );
 
 
-sequelize.authenticate()
+DATABASE.authenticate()
     .then(() => console.log('Connected.'))
     .catch((err) => console.error('Connection error: ', err))
 
@@ -32,3 +32,4 @@ sequelize.authenticate()
 //     )
 
 
+module.exports = DATABASE;
