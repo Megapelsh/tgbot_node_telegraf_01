@@ -44,20 +44,21 @@ bot.settings(async (ctx) => {
 bot.hears('pic', async (ctx) => {
     ctx.reply('Hey there')
 
-    // попытка скачать и отправить в чат бота изображение
+    // скачивание и отправка в чат бота изображение кода
     let url='https://multicode.eu/qrCode/?f=p&data=https://dsqr.eu/?q=1_1633959341_pRfyB71D63';
 
     await fetch(url)
         .then(response => {
-            ctx.reply(response)
+            ctx.replyWithPhoto(response)
             console.log('pic sent')
         })
         .catch(await function () {
+            console.log('---------- start error ---------')
             console.log('fetch error')
+            console.log('--------- finish error ---------')
         })
+    // конец отправки кода в чат
 
-    await console.log(ctx.message);
-    // конец попытки
 
 })
 
