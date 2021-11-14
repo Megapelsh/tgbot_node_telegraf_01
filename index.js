@@ -34,12 +34,6 @@ bot.settings(async (ctx) => {
         .catch(await function () {
             console.log('fetch error')
         })
-
-        // картинку кода получаем по ссылке:
-        // http://multicode.eu/qrCode/?f=p&data=https://dsqr.eu/?q=1_1633959341_pRfyB71D63
-        // f=p   png
-        // f=s   svg
-
 })
 
 
@@ -47,6 +41,10 @@ bot.command('qrcode', async (ctx) => {
     ctx.reply('Your code:')
 
     // скачивание и отправка в чат бота изображение кода
+    // картинку кода получаем по ссылке:
+    // http://multicode.eu/qrCode/?f=p&data=https://dsqr.eu/?q=1_1633959341_pRfyB71D63
+    // f=p   png
+    // f=s   svg
     let url='https://multicode.eu/qrCode/?f=p&data=https://dsqr.eu/?q=1_1633959341_pRfyB71D63';
 
     await fetch(url)
@@ -115,9 +113,13 @@ bot.hears('check', async (ctx) => {
             telegram_id: ctx.from.id
         }
     }).then(async (users) => {
+        console.log('---------- start users ---------')
         console.log(users);
+        console.log('---------- finish users ---------')
     });
 });
+
+
 
 
 bot.on('sticker', (ctx) => ctx.reply('👍'))
