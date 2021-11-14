@@ -27,7 +27,7 @@ bot.settings(async (ctx) => {
     await fetch(url, {
         method:'GET',
         headers: {
-            'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+            'Authorization': 'Basic ' + Buffer.from(`${username}:${password}`).toString('base64')
         }})
         .then(response => response.json())
         .then(json => console.log(json))
