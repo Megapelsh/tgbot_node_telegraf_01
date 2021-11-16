@@ -1,7 +1,7 @@
 const DATABASE = require('./db');
 const users = require('./users.model');
 
-const addUserToDB = async function createUser(userID, userName, firstName, lastName) {
+const addUserToDB = async function createUser(userID, userName, firstName, lastName, phone) {
     await DATABASE.sync();
 
     await users.findOrCreate({ // возвращает промис с 2 параметрами: модель и создано (булево)
@@ -13,6 +13,7 @@ const addUserToDB = async function createUser(userID, userName, firstName, lastN
             first_name: firstName,
             last_name: lastName,
             telegram_id: userID,
+            phone: phone,
         }
     })
         .then(function (result) {

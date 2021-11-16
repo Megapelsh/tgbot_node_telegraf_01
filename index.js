@@ -58,16 +58,8 @@ bot.command('qrcode', async (ctx) => {
         })
     // конец отправки кода в чат
 
-
 })
 
-
-
-bot.on("contact", ctx => {
-    const phoneNum = ctx.message.contact.phone_number;
-    ctx.reply(`Номер ${phoneNum} зарегисрирован!`);
-    console.log(phoneNum);
-})
 
 bot.help((ctx) => {
     let printedCommandList = '';
@@ -78,6 +70,7 @@ bot.help((ctx) => {
 });
 
 bot.command("reg", (ctx) => {
+
     ctx.reply("Отправить номер телефона для регистрации", Markup.keyboard([
         [
             {
@@ -86,20 +79,37 @@ bot.command("reg", (ctx) => {
             }
         ]
     ]).oneTime().resize());
+
 });
 
 
-bot.hears('auth', async (ctx) => {
+bot.on("contact", async (ctx) => {
+    const phoneNum = ctx.message.contact.phone_number;
 
     await addUserToDB(
         ctx.from.id,
         ctx.from.username,
         ctx.from.first_name,
-        ctx.from.last_name
+        ctx.from.last_name,
+        ctx.message.contact.phone_number
     );
 
 
+    await ctx.reply(`Номер ${phoneNum} зарегисрирован!`);
+    console.log(phoneNum);
 })
+
+
+// bot.hears('auth', async (ctx) => {
+//
+//     await addUserToDB(
+//         ctx.from.id,
+//         ctx.from.username,
+//         ctx.from.first_name,
+//         ctx.from.last_name
+//     );
+//
+// })
 
 
 bot.hears('check', async (ctx) => {
