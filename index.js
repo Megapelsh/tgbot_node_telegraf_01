@@ -3,6 +3,7 @@ const fetch = require("node-fetch");
 require('dotenv').config();
 
 const addUserToDB = require('./db/users.add_user')
+const checkUser = require('./db/users.check')
 
 const constants = require('./const');
 const commands = constants.commandsList;
@@ -100,29 +101,16 @@ bot.on("contact", async (ctx) => {
 })
 
 
-// bot.hears('auth', async (ctx) => {
-//
-//     await addUserToDB(
-//         ctx.from.id,
-//         ctx.from.username,
-//         ctx.from.first_name,
-//         ctx.from.last_name
-//     );
-//
-// })
-
-
 bot.hears('check', async (ctx) => {
-    await DATABASE.sync();
-    await users.findOne({
-        where: {
-            telegram_id: ctx.from.id
-        }
-    }).then(async (users) => {
-        console.log('---------- start users ---------')
-        console.log(users);
-        console.log('---------- finish users ---------')
-    });
+
+    const userExists = await checkUser(ctx.from.id);
+    if (userExists) {
+        await ctx.reply('User exists');
+    }
+    else {
+        await ctx.reply('User NOT exists');
+    }
+    // await console.log(userExists);
 });
 
 
