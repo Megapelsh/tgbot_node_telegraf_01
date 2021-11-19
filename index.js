@@ -11,7 +11,10 @@ const commands = constants.commandsList;
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 
-bot.telegram.setMyCommands(commands);
+bot.telegram.setMyCommands(commands)
+    .then((res) => {
+            console.log('Bot commands created');
+    });
 
 bot.start(async (ctx) => {
     ctx.reply(`Hey, ${ctx.message.from.first_name ? ctx.message.from.first_name : 'stranger'}!`);
