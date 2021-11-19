@@ -17,7 +17,8 @@ bot.telegram.setMyCommands(commands)
     });
 
 bot.start(async (ctx) => {
-    ctx.reply(`Hey, ${ctx.message.from.first_name ? ctx.message.from.first_name : 'stranger'}!`);
+    await ctx.reply(`Hey, ${ctx.message.from.first_name ? ctx.message.from.first_name : 'stranger'}!`);
+    await console.log(ctx.startPayload); // выводим гет-параметр из ссылки на бот
 });
 
 bot.settings(async (ctx) => {
