@@ -100,18 +100,20 @@ bot.command("reg", (ctx) => {
 
 bot.on("contact", async (ctx) => {
     const phoneNum = ctx.message.contact.phone_number;
+    const phoneNumOnlyDigits = phoneNum.replace(/[^0-9]/g, '');
 
     await addUserToDB(
         ctx.from.id,
         ctx.from.username,
         ctx.from.first_name,
         ctx.from.last_name,
-        ctx.message.contact.phone_number
+        phoneNumOnlyDigits,
     );
 
 
     await ctx.reply(`Номер ${phoneNum} зарегисрирован!`);
     console.log(phoneNum);
+    console.log(phoneNumOnlyDigits);
 })
 
 

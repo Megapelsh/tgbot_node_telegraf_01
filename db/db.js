@@ -20,8 +20,8 @@ const DATABASE = new Sequelize(
 
 
 DATABASE.authenticate()
-    .then(() => console.log('Connected.'))
-    .catch((err) => console.error('Connection error: ', err))
+    .then(() => console.log('Connected to DB.'))
+    .catch((err) => console.error('DB connection error: ', err))
 
 
 //
