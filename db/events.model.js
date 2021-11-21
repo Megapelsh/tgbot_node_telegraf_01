@@ -1,24 +1,24 @@
 const { DataTypes } = require('sequelize');
 const DATABASE = require('./db');
 
-module.exports = DATABASE.define('balances',{
+module.exports = DATABASE.define('events',{
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         unique: true,
     },
-    user_id: {
-        type: DataTypes.INTEGER,
-    },
-    type: {
+    name: {
         type: DataTypes.STRING,
     },
-    value: {
+    starts: {
+        type: DataTypes.DATE,
+    },
+    price: {
         type: DataTypes.FLOAT,
     },
-    description: {
-        type: DataTypes.TEXT,
+    speaker: {
+        type: DataTypes.STRING,
     },
     author: {
         type: DataTypes.STRING,
