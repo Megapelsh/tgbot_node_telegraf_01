@@ -32,14 +32,18 @@ bot.start(async (ctx) => {
     }
     else {
         await ctx.reply('User exists');
+        await console.log('User exists!');
     }
 
 
 
     if (ctx.startPayload) {
         await console.log(ctx.startPayload); // выводим гет-параметр из ссылки на бот
+        await ctx.reply(ctx.startPayload);
+
     }
-    await console.log(ctx.message);
+    // await console.log(ctx.message);
+    await console.log(ctx);
 
 });
 
@@ -120,18 +124,31 @@ bot.on("contact", async (ctx) => {
     const phoneNum = ctx.message.contact.phone_number;
     const phoneNumOnlyDigits = phoneNum.replace(/[^0-9]/g, '');
 
-    await addUserToDB(
-        ctx.from.id,
-        ctx.from.username,
-        ctx.from.first_name,
-        ctx.from.last_name,
-        phoneNumOnlyDigits,
-    );
+    try {
+        await addUserToDB(
+            ctx.from.id,
+            ctx.from.username,
+            ctx.from.first_name,
+            ctx.from.last_name,
+            phoneNumOnlyDigits,
+        )
+            .then (
+                ctx.reply(`Чудово! Ти молодець. Тепер можеш обрати бажану дію`)
+            )
+            .then (
+                await console.log(`Income phonenumber: ${phoneNum}`),
+                await console.log(`Cleared phonenumber: ${phoneNumOnlyDigits}`),
+                // await ctx.reply(`Номер ${phoneNum} зарегисрирован!`),
+            )
 
+    }
+    catch (e) {
+        await ctx.reply(`Упс! Щось пішло не так. Спробуй відсканувати QR-код через кілька хвилин.`);
+        await console.log('----- start error ----');
+        await console.log(e);
+        await console.log('----- finish error ----');
+    }
 
-    await ctx.reply(`Номер ${phoneNum} зарегисрирован!`);
-    console.log(phoneNum);
-    console.log(phoneNumOnlyDigits);
 })
 
 
