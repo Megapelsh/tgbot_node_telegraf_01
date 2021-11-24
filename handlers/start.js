@@ -1,5 +1,6 @@
 const { Markup, session } = require('telegraf');
 const checkUser = require('../db/users.check')
+const getQRCodeHandler = require('./qrcode_receiving')
 
 const startHandler = async function start (ctx) {
     await ctx.reply(`Привіт, ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнайомцю'}!`);
@@ -16,20 +17,16 @@ const startHandler = async function start (ctx) {
         ]).oneTime().resize());
     }
     else {
-        await ctx.reply('User exists');
-        await console.log('User exists!');
+        if (ctx.startPayload) {   // если задан startPayload,
+            await ctx.reply('Твій код на відвідування цього заходу:');
+            await getQRCodeHandler(ctx);
+        }
+        else {
+            await ctx.reply('Обери бажану дію з меню, якого поки що немає, ги-ги')
+        }
     }
 
-    // ctx.session.startPayload = ctx.startPayload;
-
-    if (ctx.startPayload) {
-        // await updateQR(ctx.startPayload, ctx.from.id);
-        await console.log(ctx.startPayload); // выводим гет-параметр из ссылки на бот
-        await ctx.reply(ctx.startPayload);
-
-    }
-// await console.log(ctx.message);
-    await console.log(ctx);
+    // await console.log(ctx);
 }
 
 module.exports = startHandler;
