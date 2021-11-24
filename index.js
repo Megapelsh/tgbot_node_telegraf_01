@@ -18,9 +18,12 @@ bot.telegram.setMyCommands(commands)
             console.log('Bot commands created');
     });
 
+bot.session ??= { startPayload: '' } // в сессию положили стартПейлоад и присвоили значение по-умолчанию
 
 bot.start(async (ctx) => {
     await startHandler(ctx);
+    bot.session.startPayload = ctx.startPayload;
+    await console.log(bot.session.startPayload);
 });
 
 bot.settings(async (ctx) => {
@@ -107,7 +110,7 @@ bot.on("contact", async (ctx) => {
             ctx.from.first_name,
             ctx.from.last_name,
             phoneNumOnlyDigits,
-            ctx.startPayload,
+            bot.session.startPayload,
         )
             .then (
                 ctx.reply(`Чудово! Ти молодець. Тепер можеш обрати бажану дію`)
@@ -146,6 +149,7 @@ bot.hears('check', async (ctx) => {
 bot.on('sticker', (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 
+bot.use(session())
 bot.launch()
 
 // Enable graceful stop

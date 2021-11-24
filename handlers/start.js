@@ -1,4 +1,4 @@
-const { Markup } = require('telegraf');
+const { Markup, session } = require('telegraf');
 const checkUser = require('../db/users.check')
 
 const startHandler = async function start (ctx) {
@@ -20,7 +20,7 @@ const startHandler = async function start (ctx) {
         await console.log('User exists!');
     }
 
-
+    // ctx.session.startPayload = ctx.startPayload;
 
     if (ctx.startPayload) {
         // await updateQR(ctx.startPayload, ctx.from.id);
@@ -33,3 +33,4 @@ const startHandler = async function start (ctx) {
 }
 
 module.exports = startHandler;
+
