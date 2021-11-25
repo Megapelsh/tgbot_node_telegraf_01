@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const startHandler = require('./handlers/start')
 const registerHandler = require('./handlers/registration')
-const getQRCodeHandler = require('./handlers/qrcode_receiving')
+const getQRCodeHandler = require('./handlers/get_qrcode')
 
 const constants = require('./const');
 const commands = constants.commandsList;
@@ -17,12 +17,13 @@ bot.telegram.setMyCommands(commands)
     });
 
 
-bot.session ??= { startPayload: '' } // в сессию положили стартПейлоад и присвоили значение по-умолчанию
+// помещаем в сессию стартПейлоад и присваиваем значение по-умолчанию
+bot.session ??= { startPayload: '' }
 
 
 bot.start(async (ctx) => {
-    await startHandler(ctx);
     bot.session.startPayload = ctx.startPayload;
+    await startHandler(ctx, bot.session.startPayload);
     await console.log(bot.session.startPayload);
 });
 
@@ -31,7 +32,7 @@ bot.on("contact", async (ctx) => {
     await registerHandler(ctx, bot.session.startPayload);
     if (bot.session.startPayload !== '') {
         await ctx.reply('Твій код на відвідування цього заходу:');
-        await getQRCodeHandler(ctx);
+        await getQRCodeHandler(ctx, bot.session.startPayload);
     }
 });
 

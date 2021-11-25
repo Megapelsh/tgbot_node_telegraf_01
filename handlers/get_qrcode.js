@@ -1,7 +1,8 @@
 const fetch = require("node-fetch");
 
-const qrcode = async function getQRCode (ctx) {
-    let url='https://multicode.eu/qrCode/?f=p&data=zahid%20--%20Vistavka%20vyazanih%20gamanciv%20--%20vidviduvach%20--%20+380%2098%20563%202147%20--%20dostup%20--%20+++%20DOZVOLENO%20+++';
+const qrcode = async function getQRCode (ctx, event) {
+
+    let url=`https://multicode.eu/qrCode/?f=p&data=zahid%20--%20${event}%20--%20vidviduvach%20--%20+380%2098%20563%202147%20--%20dostup%20--%20+++%20DOZVOLENO%20+++`;
 
     await fetch(url)
         .then(response => {

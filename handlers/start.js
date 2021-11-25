@@ -1,8 +1,8 @@
 const { Markup, session } = require('telegraf');
 const checkUser = require('../db/users.check')
-const getQRCodeHandler = require('./qrcode_receiving')
+const getQRCodeHandler = require('./get_qrcode')
 
-const startHandler = async function start (ctx) {
+const startHandler = async function start (ctx, event) {
     await ctx.reply(`Привіт, ${ctx.message.from.first_name ? ctx.message.from.first_name : 'незнайомцю'}!`);
 
     const userExists = await checkUser(ctx.from.id);
@@ -19,7 +19,7 @@ const startHandler = async function start (ctx) {
     else {
         if (ctx.startPayload) {   // если задан startPayload,
             await ctx.reply('Твій код на відвідування цього заходу:');
-            await getQRCodeHandler(ctx);
+            await getQRCodeHandler(ctx, event);
         }
         else {
             await ctx.reply('Обери бажану дію з меню, якого поки що немає, ги-ги')
