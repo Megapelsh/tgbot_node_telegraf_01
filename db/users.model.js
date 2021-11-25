@@ -30,4 +30,7 @@ module.exports = DATABASE.define('user',{
     user_group: {
         type: DataTypes.STRING,
     },
+    balance: {
+        type: DataTypes.FLOAT,
+    },
 })

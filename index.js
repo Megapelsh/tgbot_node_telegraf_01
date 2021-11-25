@@ -5,6 +5,8 @@ const startHandler = require('./handlers/start')
 const registerHandler = require('./handlers/registration')
 const getQRCodeHandler = require('./handlers/get_qrcode')
 
+const checkUser = require('./db/users.check')
+
 const constants = require('./const');
 const commands = constants.commandsList;
 
