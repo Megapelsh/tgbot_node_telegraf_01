@@ -12,6 +12,7 @@ const registration = async function userRegister (ctx, startPayload) {
             ctx.from.last_name,
             phoneNumOnlyDigits,
             startPayload,
+            0,
         )
             .then (
                 ctx.reply(`Чудово! Ти молодець!`)
