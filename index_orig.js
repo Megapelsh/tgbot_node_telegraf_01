@@ -13,9 +13,6 @@ const commands = constants.commandsList;
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-bot.use(session())
-
-
 
 bot.telegram.setMyCommands(commands)
     .then((res) => {
@@ -108,7 +105,7 @@ bot.on('sticker', (ctx) => ctx.reply('👍'))
 bot.hears('hi', (ctx) => ctx.reply('Hey there'))
 
 
-
+bot.use(session())
 
 bot.launch()
     .then(res => console.log('Bot started!'))

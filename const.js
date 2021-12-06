@@ -4,6 +4,10 @@ const commands = [
         description: 'Start bot',
     },
     {
+        command: '/event',
+        description: 'Add event',
+    },
+    {
         command: '/help',
         description: 'Bot commands list',
     },
