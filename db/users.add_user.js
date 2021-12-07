@@ -26,7 +26,6 @@ const addUserToDB = async function createUser(userID, userName, firstName, lastN
             } else {
                 console.log(`User ${userName} created!`)
             }
-            console.log('фраза в конце скрипта');
         })
 }
 

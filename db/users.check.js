@@ -11,9 +11,9 @@ const checkUser = async function checkUserInDB(userID) {
             telegram_id: userID,
         }
     }).then(async (users) => {
-        console.log('---------- start users ---------')
-        console.log(users);
-        console.log('---------- finish users ---------')
+        // console.log('---------- start users ---------')
+        // console.log(users);
+        // console.log('---------- finish users ---------')
 
         user = users;
     });

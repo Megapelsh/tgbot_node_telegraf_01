@@ -1,6 +1,6 @@
 const addUserToDB = require('../db/users.add_user')
 
-const registration = async function userRegister (ctx, startPayload) {
+const registration = async function userRegister (ctx) {
     const phoneNum = ctx.message.contact.phone_number;
     const phoneNumOnlyDigits = phoneNum.replace(/[^0-9]/g, '');
 
@@ -11,7 +11,7 @@ const registration = async function userRegister (ctx, startPayload) {
             ctx.from.first_name,
             ctx.from.last_name,
             phoneNumOnlyDigits,
-            startPayload,
+            ctx.session,
             0,
         )
             .then (

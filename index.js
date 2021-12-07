@@ -24,22 +24,24 @@ bot.telegram.setMyCommands(commands)
 
 
 // помещаем в сессию стартПейлоад и присваиваем значение по-умолчанию
-bot.session ??= { startPayload: '' }
+// bot.payload ??= { startPayload: '' }
 
 
 bot.start(async (ctx) => {
-    bot.session.startPayload = ctx.startPayload;
-    await startHandler(ctx, bot.session.startPayload);
-    await console.log(bot.session.startPayload);
+    ctx.session = ctx.startPayload;
+    await startHandler(ctx, ctx.session);
+    // await console.log(ctx.session);
 });
 
 
 bot.on("contact", async (ctx) => {
-    await registerHandler(ctx, bot.session.startPayload);
-    if (bot.session.startPayload !== '') {
+    await registerHandler(ctx);
+    if (ctx.session !== '') {
         await ctx.reply('Твій код на відвідування цього заходу:');
-        await getQRCodeHandler(ctx, bot.session.startPayload);
+        await getQRCodeHandler(ctx, ctx.session);
     }
+    // await console.log(ctx.session);
+    ctx.session = '';
 });
 
 
@@ -90,6 +92,7 @@ bot.hears('check', async (ctx) => {
 const startWizard = new Composer()
 startWizard.on('text', async (ctx) => {
     await ctx.reply('Say your name:')
+    await console.log(bot)
     return ctx.wizard.next()
 })
 
